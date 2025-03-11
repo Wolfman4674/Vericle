@@ -1,0 +1,29 @@
+import discord
+from discord.ext import commands
+
+intents = discord.Intents.default()
+intents.members = True
+
+bot = commands.Bot(command_prefix="!", intents=intents)
+
+# Replace these with actual role IDs
+hhcheaddirector = 123456789012345678
+apollyonytmc = 876543210987654321
+
+@bot.event
+async def on_ready():
+    print(f'Logged in as {bot.user.name}')
+
+@bot.event
+async def on_member_join(member):
+    guild = member.guild
+    admin_role = guild.get_role(ADMIN_ROLE_ID)
+    mod_role = guild.get_role(MOD_ROLE_ID)
+
+    if admin_role in member.roles or mod_role in member.roles:
+        channel = discord.utils.get(guild.channels, name="general") # Replace with your announcement channel name
+        if channel:
+            await channel.send(f'{member.mention}, who is an Admin or Mod, has joined the server!')
+
+# Replace with your bot token
+bot.run('1349159072099729448')
